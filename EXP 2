@@ -1,0 +1,48 @@
+import copy
+
+def initialize_hypotheses(n):
+    hypotheses = []
+    specific_hypothesis = ['0'] * n
+    general_hypothesis = ['?'] * n
+    hypotheses.append(specific_hypothesis)
+    hypotheses.append(general_hypothesis)
+    return hypotheses
+
+
+def candidate_elimination(training_data):
+    num_attributes = len(training_data[0]) - 1
+    hypotheses = initialize_hypotheses(num_attributes)
+
+    for example in training_data:
+
+        if example[-1] == 'Yes':
+
+            for i in range(num_attributes):
+                if hypotheses[0][i] == '0':
+                    hypotheses[0][i] = example[i]
+                elif hypotheses[0][i] != example[i]:
+                    hypotheses[0][i] = '?'
+
+        else:
+            pass
+
+    return hypotheses
+
+
+training_data = [
+    ['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same', 'Yes'],
+    ['Sunny', 'Warm', 'High', 'Strong', 'Warm', 'Same', 'Yes'],
+    ['Rainy', 'Cold', 'High', 'Weak', 'Cool', 'Change', 'No'],
+    ['Sunny', 'Warm', 'High', 'Strong', 'Cool', 'Change', 'Yes']
+]
+
+result_hypotheses = candidate_elimination(training_data)
+
+print("Result Hypotheses:")
+for h in result_hypotheses:
+    print(h)
+
+OUTPUT
+Result Hypotheses:
+['Sunny', 'Warm', '?', 'Strong', '?', '?']
+['?', '?', '?', '?', '?', '?']
